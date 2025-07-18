@@ -48,9 +48,10 @@ function ProductImageUpload({
   async function uploadImageToCloudinary() {
     setImageLoadingState(true);
     const data = new FormData();
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      `${backendUrl}/api/admin/products/upload-image`,
       data
     );
     console.log(response, "response");
