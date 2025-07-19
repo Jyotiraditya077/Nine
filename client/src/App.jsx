@@ -18,7 +18,7 @@ import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
-import { Skeleton } from "@/components/ui/skeleton";
+import Preloader from "@/components/ui/Preloader";
 import PaymentSuccessPage from "./pages/shopping-view/payment-success";
 import SearchProducts from "./pages/shopping-view/search";
 
@@ -29,12 +29,26 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkAuth());
+    const delayCheckAuth = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 seconds delay
+      dispatch(checkAuth());
+    };
+    delayCheckAuth();
   }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;
+  if (isLoading) return <Preloader type="video" className="w-[800px] h-[600px]" />;
 
   console.log(isLoading, user);
+
+  if (isLoading) {
+    console.log("Loading state active");
+    return (
+      <div className="flex justify-center items-center w-full h-screen bg-white">
+        <Preloader type="video" className="w-[800px] h-[600px]" />
+        <span>Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

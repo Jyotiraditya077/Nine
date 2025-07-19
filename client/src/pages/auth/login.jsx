@@ -5,6 +5,7 @@ import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Preloader from "@/components/ui/Preloader";
 
 const initialState = {
   email: "",
@@ -13,24 +14,34 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault();
+    setLoading(true);
+    const data = await dispatch(loginUser(formData));
+    setLoading(false);
 
-    dispatch(loginUser(formData)).then((data) => {
-      if (data?.payload?.success) {
-        toast({
-          title: data?.payload?.message,
-        });
-      } else {
-        toast({
-          title: data?.payload?.message,
-          variant: "destructive",
-        });
-      }
-    });
+    if (data?.payload?.success) {
+      toast({
+        title: data?.payload?.message,
+      });
+    } else {
+      toast({
+        title: data?.payload?.message,
+        variant: "destructive",
+      });
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center w-full h-screen bg-white">
+        <Preloader type="video" className="w-[800px] h-[600px]" />
+      </div>
+    );
   }
 
   return (

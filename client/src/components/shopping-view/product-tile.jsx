@@ -2,12 +2,45 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
+import { Skeleton } from "../ui/skeleton";
 
 function ShoppingProductTile({
   product,
   handleGetProductDetails,
   handleAddtoCart,
+  loading = false,
 }) {
+  if (loading) {
+    return (
+      <Card className="w-full max-w-sm mx-auto h-full flex flex-col">
+        <div className="flex-grow flex flex-col">
+          <div className="relative">
+            <Skeleton className="w-full h-[300px] rounded-t-lg" />
+          </div>
+
+          <CardContent className="p-4 flex flex-col flex-grow justify-between">
+            <div>
+              <Skeleton className="h-8 w-3/5 mb-2" />
+              <div className="flex justify-between items-center mb-4">
+                <Skeleton className="h-5 w-2/5" />
+                <Skeleton className="h-5 w-2/5" />
+              </div>
+            </div>
+
+            <div className="mt-auto flex justify-between items-center pt-4 border-t">
+              <Skeleton className="h-8 w-1/3" />
+              <Skeleton className="h-8 w-1/3" />
+            </div>
+          </CardContent>
+        </div>
+
+        <CardFooter className="mt-auto">
+          <Skeleton className="h-10 w-full" />
+        </CardFooter>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full max-w-sm mx-auto h-full flex flex-col">
       <div
