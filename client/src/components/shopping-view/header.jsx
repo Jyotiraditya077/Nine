@@ -82,8 +82,7 @@ function HeaderRightContent() {
     }
   }, [dispatch, user?.id]);
 
-  console.log(cartItems, "sangam");
-
+  
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
