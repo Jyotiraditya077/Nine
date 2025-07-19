@@ -66,7 +66,7 @@ function MenuItems() {
 }
 
 function HeaderRightContent() {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
@@ -77,8 +77,10 @@ function HeaderRightContent() {
   }
 
   useEffect(() => {
-    dispatch(fetchCartItems(user?.id));
-  }, [dispatch]);
+    if (user?.id) {
+      dispatch(fetchCartItems(user.id));
+    }
+  }, [dispatch, user?.id]);
 
   console.log(cartItems, "sangam");
 
@@ -107,28 +109,34 @@ function HeaderRightContent() {
         />
       </Sheet>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
-            <AvatarFallback className="bg-black text-white font-extrabold">
-              {user?.userName[0].toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" className="w-56">
-          <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
-            <UserCog className="mr-2 h-4 w-4" />
-            Account
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {isAuthenticated ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="bg-black">
+              <AvatarFallback className="bg-black text-white font-extrabold">
+                {user?.userName[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="right" className="w-56">
+            <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+              <UserCog className="mr-2 h-4 w-4" />
+              Account
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <Button onClick={() => navigate("/auth/login")} variant="outline" size="sm">
+          Login
+        </Button>
+      )}
     </div>
   );
 }

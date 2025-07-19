@@ -86,6 +86,15 @@ function ShoppingListing() {
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      toast({
+        title: "Login required",
+        description: "Please login to add items to your cart.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     console.log(cartItems);
     let getCartItems = cartItems.items || [];
 

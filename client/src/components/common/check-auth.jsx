@@ -6,8 +6,9 @@ function CheckAuth({ isAuthenticated, user, children }) {
   console.log(location.pathname, isAuthenticated);
 
   if (location.pathname === "/") {
+    // Allow unauthenticated users to access shopping home
     if (!isAuthenticated) {
-      return <Navigate to="/auth/login" />;
+      return <Navigate to="/shop/home" />;
     } else {
       if (user?.role === "admin") {
         return <Navigate to="/admin/dashboard" />;
@@ -21,11 +22,13 @@ function CheckAuth({ isAuthenticated, user, children }) {
     !isAuthenticated &&
     !(
       location.pathname.includes("/login") ||
-      location.pathname.includes("/register")
+      location.pathname.includes("/register") ||
+      location.pathname.startsWith("/shop")
     )
   ) {
     return <Navigate to="/auth/login" />;
   }
+
 
   if (
     isAuthenticated &&
@@ -38,6 +41,7 @@ function CheckAuth({ isAuthenticated, user, children }) {
       return <Navigate to="/shop/home" />;
     }
   }
+
 
   if (
     isAuthenticated &&
