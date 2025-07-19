@@ -1,7 +1,7 @@
 # Nine
 
 <p align="center">
-  <img src="client/src/assets/logo.png" alt="Nine Logo" width="170px" />
+  <img src="https://github.com/Jyotiraditya077/Nine/blob/main/client/src/assets/logo3.png" alt="Nine Logo" width="170px" />
 </p>
 
 **Nine** is a modern e-commerce shopping web application with a clean and intuitive user interface. It allows users to browse products, add items to their cart, and checkout. The app supports user authentication with protected routes and a seamless shopping experience.
